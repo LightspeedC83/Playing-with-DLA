@@ -1,6 +1,6 @@
 # Playing with DLA
 This is a program that uses diffusion limited aggregation to create images.
-The premise is that you start with a point on a plane and a candidate point is moved randomly until it meets another point, then the candidate point is frozen in place and a new candidate point is created. Candidate points are initialized to a random empty location. For more information on DLA, [refer to the wikipedia][https://en.wikipedia.org/wiki/Diffusion-limited_aggregation].
+The premise is that you start with a point on a plane and a candidate point is moved randomly until it meets another point, then the candidate point is frozen in place and a new candidate point is created. Candidate points are initialized to a random empty location. For more information on DLA, [refer to the wikipedia](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation).
 
 ## Output examples
 
