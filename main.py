@@ -1,6 +1,8 @@
 import random
 from PIL import Image
 
+locks_on_diagonal = True
+
 # creating the point class system
 class Point():
     def __init__(self, x_pos, y_pos, timestamp=0):
@@ -16,17 +18,25 @@ class Point():
         self.y = destination[1]
         
     def is_locked(self, points):
-        for h in range(self.x -1, self.x +2):
-            for v in range(self.y -1, self.y +2):
-                if h != self.x and v != self.y:
-                    try:
-                        val = points[h][v]
-                        if val != None:
-                            return True 
-                    except: 
-                        pass
-        return False
-
+        if locks_on_diagonal: # will return true if there is also a point diagonal to this point
+            for h in range(self.x -1, self.x +2):
+                for v in range(self.y -1, self.y +2):
+                    if h != self.x and v != self.y:
+                        try:
+                            if points[h][v] != None:
+                                return True 
+                        except: 
+                            pass
+            return False
+        
+        else: # will return not true if there is also a point diagonal to this point
+            for point in [(self.x-1,self.y), (self.x+1, self.y), (self.x, self.y-1), (self.x, self.y+1)]:
+                try:
+                    if points[point[0]][point[1]] != None:
+                        return True
+                except:
+                    pass
+            return False
 
 # function declarations
 def crude_print():
@@ -34,15 +44,15 @@ def crude_print():
     for line in points:
         for point in line:
             if point == None:
-                output += "0 "
+                output += ". "
             else:
-                output += "1 "
+                output += "# "
         output += "\n"
     print(output)
 
 # creating the list to keep track of the points
-x_resolution = 50
-y_resolution = 50
+x_resolution = 200
+y_resolution = 200
 
 points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
 
@@ -101,4 +111,4 @@ output = Image.new(mode="RGB", size=(x_resolution,y_resolution))
 output.putdata(pixels)
 output.save("output.jpg") 
 
-print(pixels)
+print("done")
