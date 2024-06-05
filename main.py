@@ -1,4 +1,5 @@
 import random
+from PIL import Image
 
 # creating the point class system
 class Point():
@@ -40,8 +41,8 @@ def crude_print():
     print(output)
 
 # creating the list to keep track of the points
-x_resolution = 21
-y_resolution = 21
+x_resolution = 50
+y_resolution = 50
 
 points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
 
@@ -84,4 +85,20 @@ while density < target_density:
 
     timestamp +=1 
 
-crude_print()
+# crude_print()
+
+# converting the points list to an image
+pixels = []
+for line in points:
+    for point in line:
+        if point != None:
+            pixels.append((0,0,0))
+        else:
+            pixels.append((255,255,255))
+
+# saving the output image
+output = Image.new(mode="RGB", size=(x_resolution,y_resolution))
+output.putdata(pixels)
+output.save("output.jpg") 
+
+print(pixels)
