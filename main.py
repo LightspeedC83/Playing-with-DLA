@@ -39,20 +39,36 @@ class Point():
             return False
 
 # function declarations
-def crude_print():
+def crude_print(points):
+    """prints the output list in the terminal with a 0 for an empty space and a 1 for a filled space"""
     output = ""
     for line in points:
         for point in line:
             if point == None:
-                output += ". "
+                output += "0 "
             else:
-                output += "# "
+                output += "1 "
         output += "\n"
     print(output)
 
+def expand_array(points, addition):
+    """takes a 2D array and adds None elements around the edges addition spaces out"""
+    for j in range(addition):
+        for i in range(len(points)):
+            points[i].insert(0, None)
+            points[i].append(None)
+    
+    for j in range(addition):
+        points.insert(0, [None for x in range(len(points[0]))])
+        points.append([None for x in range(len(points[0]))])
+
+    return(points)
+
+
+
 # creating the list to keep track of the points
-x_resolution = 200
-y_resolution = 200
+x_resolution = 10
+y_resolution = 10
 
 points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
 
@@ -64,6 +80,8 @@ target_density = 0.15
 points_placed = 1
 density = 1/(x_resolution*y_resolution)
 timestamp = 1
+
+
 
 while density < target_density:
     # creating a new point object at a random empty locaiton
@@ -109,6 +127,6 @@ for line in points:
 # saving the output image
 output = Image.new(mode="RGB", size=(x_resolution,y_resolution))
 output.putdata(pixels)
-output.save("output.jpg") 
+output.save(f"DLA output {x_resolution}x{y_resolution} -target_density={target_density} -locks_on_diagonal={locks_on_diagonal}.jpg") 
 
 print("done")
