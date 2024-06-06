@@ -18,9 +18,11 @@ To Do:
 - implement mp4 creation of building structure
 
 To Do (Later):
+- mulitple candidate points at once
 - change collision detection system to mirror cellular automota (ie. use binary rules to govern whether a space around the candidate point is occupied and the candidate point should therefore freeze)
 - if a point is moved a certain number of times, it freezes and then a new point is created, leading to the creation of multiple "crystals"
 - variation of the nucleation points (ie. points in the starting state)
 - addition of new nucleation points in the middle of building the crystal such that multiple, crystals of different sizes are created 
 - some sort of user interface to make it easy to set starting conditions and rules for generation
 - implement non-random movement and/or generation of candidate points (for example, have them start on one side of the canvas and move in a certain direction with random variation whose weight can be changed)
+

@@ -1,7 +1,8 @@
 import random
 from PIL import Image
 
-locks_on_diagonal = True
+locks_on_diagonal = False
+expansion_optimization = False
 
 # creating the point class system
 class Point():
@@ -66,28 +67,58 @@ def expand_array(points, addition):
 
 
 
-# creating the list to keep track of the points
-x_resolution = 10
-y_resolution = 10
+# setting the initial state
+x_resolution = 250
+y_resolution = 250
 
-points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
+x_res_current = 25
+y_res_current = 25
+growth_const = 25
 
-# setting the initial state of the system
-points[x_resolution//2][y_resolution//2] = Point(x_resolution//2, y_resolution//2) # placing one point
+if not expansion_optimization:
+    points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
+    
+    x_res_current = x_resolution
+    y_res_current = y_resolution
+
+    # setting the initial state of the system with one point
+    points[x_resolution//2][y_resolution//2] = Point(x_resolution//2, y_resolution//2) # placing one point
+
+else:
+    points = [[None for x in range(x_res_current)] for y in range(y_res_current)] # Starting with a small 2D canvas that will grow
+     # setting the initial state of the system with one point
+    points[x_res_current//2][y_res_current//2] = Point(x_res_current//2, y_res_current//2) # placing one point
 
 # starting the main loop
-target_density = 0.15
+target_density = 0.25
 points_placed = 1
-density = 1/(x_resolution*y_resolution)
+density = 1/(x_res_current*y_res_current)
 timestamp = 1
 
 
 
-while density < target_density:
+while True:
+    
+    # taking care of stuff for if we're using the expansion optimization process
+    if expansion_optimization and density > target_density and x_res_current >= x_resolution and y_res_current >= y_resolution:
+            break
+    
+    if not expansion_optimization and density > target_density:
+        break
+
+    if expansion_optimization and density >= target_density:
+        print("AAA")
+        points = expand_array(points, growth_const)
+        x_res_current += 2*growth_const
+        y_res_current += 2*growth_const
+
+    
+    
+    
     # creating a new point object at a random empty locaiton
     while True:
-        rand_x = random.randint(0, x_resolution-1)
-        rand_y = random.randint(0, y_resolution-1)
+        rand_x = random.randint(0, x_res_current-1)
+        rand_y = random.randint(0, y_res_current-1)
         
         if points[rand_x][rand_y] == None:
             new_point = Point(rand_x, rand_y, timestamp)
@@ -109,11 +140,11 @@ while density < target_density:
     
     # recalculating density and restarting loop
     points_placed +=1
-    density = points_placed/(x_resolution*y_resolution)
+    density = points_placed/(x_res_current*y_res_current)
 
     timestamp +=1 
 
-# crude_print()
+
 
 # converting the points list to an image
 pixels = []
@@ -127,6 +158,6 @@ for line in points:
 # saving the output image
 output = Image.new(mode="RGB", size=(x_resolution,y_resolution))
 output.putdata(pixels)
-output.save(f"DLA output {x_resolution}x{y_resolution} -target_density={target_density} -locks_on_diagonal={locks_on_diagonal}.jpg") 
+output.save(f"outputs\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization}.jpg")
 
 print("done")
