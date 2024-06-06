@@ -46,9 +46,9 @@ def crude_print(points):
     for line in points:
         for point in line:
             if point == None:
-                output += "0 "
+                output += ". "
             else:
-                output += "1 "
+                output += "# "
         output += "\n"
     print(output)
 
@@ -68,12 +68,12 @@ def expand_array(points, addition):
 
 
 # setting the initial state
-x_resolution = 250
-y_resolution = 250
+x_resolution = 305
+y_resolution = 305
 
-x_res_current = 25
-y_res_current = 25
-growth_const = 25
+x_res_current = 5
+y_res_current = 5
+growth_const = 5
 
 if not expansion_optimization:
     points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
@@ -89,8 +89,9 @@ else:
      # setting the initial state of the system with one point
     points[x_res_current//2][y_res_current//2] = Point(x_res_current//2, y_res_current//2) # placing one point
 
+
 # starting the main loop
-target_density = 0.25
+target_density = 0.15
 points_placed = 1
 density = 1/(x_res_current*y_res_current)
 timestamp = 1
@@ -107,7 +108,8 @@ while True:
         break
 
     if expansion_optimization and density >= target_density:
-        print("AAA")
+        # crude_print(points)
+        print("expanding...")
         points = expand_array(points, growth_const)
         x_res_current += 2*growth_const
         y_res_current += 2*growth_const
@@ -145,6 +147,7 @@ while True:
     timestamp +=1 
 
 
+# crude_print(points)
 
 # converting the points list to an image
 pixels = []
@@ -154,6 +157,7 @@ for line in points:
             pixels.append((0,0,0))
         else:
             pixels.append((255,255,255))
+
 
 # saving the output image
 output = Image.new(mode="RGB", size=(x_resolution,y_resolution))
