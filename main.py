@@ -1,8 +1,13 @@
 import random
 from PIL import Image
+import time
 
-locks_on_diagonal = False
-expansion_optimization = False
+locks_on_diagonal = True
+expansion_optimization = True
+downscaling_expansion = False
+
+if not expansion_optimization:
+    downscaling_expansion = False
 
 # creating the point class system
 class Point():
@@ -68,12 +73,12 @@ def expand_array(points, addition):
 
 
 # setting the initial state
-x_resolution = 305
-y_resolution = 305
+x_resolution = 500
+y_resolution = 500
 
-x_res_current = 5
-y_res_current = 5
-growth_const = 5
+x_res_current = 300
+y_res_current = 300
+growth_const = 10
 
 if not expansion_optimization:
     points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
@@ -96,25 +101,28 @@ points_placed = 1
 density = 1/(x_res_current*y_res_current)
 timestamp = 1
 
-
+start_time = time.time()
+time_expansion = time.time()
 
 while True:
     
     # taking care of stuff for if we're using the expansion optimization process
-    if expansion_optimization and density > target_density and x_res_current >= x_resolution and y_res_current >= y_resolution:
-            break
+    if expansion_optimization and density >= target_density and x_res_current >= x_resolution and y_res_current >= y_resolution:
+        break
     
     if not expansion_optimization and density > target_density:
         break
 
     if expansion_optimization and density >= target_density:
-        # crude_print(points)
-        print("expanding...")
+        print(f"expanding... {x_res_current}/{x_resolution}, {str(time.time()-time_expansion)[0:4]}s")
+        time_expansion = time.time()
         points = expand_array(points, growth_const)
         x_res_current += 2*growth_const
         y_res_current += 2*growth_const
 
-    
+        # downscaling the growth constant by 1 each time the canvas expands
+        if growth_const > 1 and downscaling_expansion:
+            growth_const -=1    
     
     
     # creating a new point object at a random empty locaiton
@@ -146,8 +154,10 @@ while True:
 
     timestamp +=1 
 
+    if ((time.time()-start_time)//1)%10 == 0:
+        print(density/target_density)
 
-# crude_print(points)
+
 
 # converting the points list to an image
 pixels = []
@@ -160,8 +170,9 @@ for line in points:
 
 
 # saving the output image
-output = Image.new(mode="RGB", size=(x_resolution,y_resolution))
+print("saving the output image")
+output = Image.new(mode="RGB", size=(len(points[0]),len(points)))
 output.putdata(pixels)
-output.save(f"outputs\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization}.jpg")
+output.save(f"outputs\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization} -downscaling_expansion={downscaling_expansion} -generated in {str(time.time()-start_time)[0:4]}s.jpg")
 
-print("done")
+print(f"done in {str(time.time()-start_time)[0:4]}s")
