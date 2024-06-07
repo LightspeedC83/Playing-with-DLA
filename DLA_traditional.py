@@ -101,7 +101,7 @@ else:
 target_density = 0.15
 points_placed = 1
 density = 1/(x_res_current*y_res_current)
-timestamp = 0
+timestamp = 1
 
 start_time = time.time()
 time_expansion = time.time()
@@ -182,6 +182,6 @@ for line in points:
 print("saving the output image")
 output = Image.new(mode="RGB", size=(len(points[0]),len(points)))
 output.putdata(pixels)
-output.save(f"outputs\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization} -downscaling_expansion={downscaling_expansion} -time_shading={time_shading} -generated in {str(time.time()-start_time)[0:4]}s.jpg")
+output.save(f"outputs_traditional_DLA\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization} -downscaling_expansion={downscaling_expansion} -time_shading={time_shading} -generated in {str(time.time()-start_time)[0:4]}s.jpg")
 
 print(f"done in {str(time.time()-start_time)[0:4]}s")

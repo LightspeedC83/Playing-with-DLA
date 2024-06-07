@@ -2,6 +2,16 @@
 This is a program that uses diffusion limited aggregation to create images.
 The premise is that you start with a point on a plane and a candidate point is moved randomly until it meets another point, then the candidate point is frozen in place and a new candidate point is created. Candidate points are initialized to a random empty location. For more information on DLA, [refer to the wikipedia](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation).
 
+
+## Output examples
+
+### Candidate point freezes only if one of the top, bottom, left, right spaces (ie. the adjacent spaces) is occupied
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/output%20-diagonals%3Dfalse.jpg)
+
+### Candidate point freezes if any space in a square around it (ie. adjacent and diagonal) is occupied
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/output%20-diagonals%3Dtrue.jpg)
+
+
 ## Optimizing the process with expansion
 If you want to generate a large image using DLA, it is very inefficient to start with one point on that large space and randomly move the candidate point around. As the canvas size gets bigger, the less likely it is that the candidate point finds its way to the other points in a timely manner. The solution that I implemented (in the code, called "expansion_optimization") starts the DLA process with a small image and grows the points in it according to the rules of DLA until it reaches the desired density, then the borders of the space are increased by a fixed amount and the DLA process continues until the desired density is again reached. This process is repeated until the canvas space reaches the size of the desired resolution. Expanding only when the desired density is reached, ensures that said density is uniform throughout. 
 
@@ -11,13 +21,6 @@ To further improve the optimization of this approach, I made it such that the gr
 
 It should be noted that this expansion optimization process seems to produce images with higher densities at the center if the candidate point locks on the diagonal, than if it doesn't. (after a cursory glance, it doesn't seem to affect density in the images where the candidate point doesn't lock on the diagonal). 
 
-## Output examples
-
-### Candidate point freezes only if one of the top, bottom, left, right spaces (ie. the adjacent spaces) is occupied
-![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/output%20-diagonals%3Dfalse.jpg)
-
-### Candidate point freezes if any space in a square around it (ie. adjacent and diagonal) is occupied
-![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/output%20-diagonals%3Dtrue.jpg)
 
 ## To Do:
 - fix wraparound issue (i think it happens with image conversion)
