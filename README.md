@@ -22,8 +22,8 @@ It should be noted that this expansion optimization process seems to produce ima
 ## To Do:
 - fix wraparound issue (i think it happens with image conversion)
 - fix non black and white pixel issue
-- ~~ implement scaling depending on the desired resolution to increase generation speed~~
-    - ~~ ie. when it starts, have a small box, when that box reaches desired density, add white space around edges, repeat until at desired resolution and density~~
+- ~~implement scaling depending on the desired resolution to increase generation speed~~
+    - ~~ie. when it starts, have a small box, when that box reaches desired density, add white space around edges, repeat until at desired resolution and density~~
     - ~~fix putdata issue from result (is there even an issue?)~~
 - implement mp4 creation of building structure
 - devise an alternate optimization solution where the program keeps track of the edge points and then picks a random edge point, next to which to add a new point
