@@ -31,6 +31,7 @@ It should be noted that this expansion optimization process seems to produce ima
 To Do (Later):
 - mulitple candidate points at once
 - change collision detection system to mirror cellular automota (ie. use binary rules to govern whether a space around the candidate point is occupied and the candidate point should therefore freeze)
+    - seems unecessary (?)
 - if a point is moved a certain number of times, it freezes and then a new point is created, leading to the creation of multiple "crystals"
     - would have to not use in the expansion optimizaiton simulations (expansion optimization wouldn't help significantly in this case)
 - variation of the nucleation points (ie. points in the starting state)

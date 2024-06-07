@@ -2,12 +2,14 @@ import random
 from PIL import Image
 import time
 
-locks_on_diagonal = True
+locks_on_diagonal = False
 expansion_optimization = True
 downscaling_expansion = False
 
 if not expansion_optimization:
     downscaling_expansion = False
+
+time_shading = True
 
 # creating the point class system
 class Point():
@@ -73,12 +75,12 @@ def expand_array(points, addition):
 
 
 # setting the initial state
-x_resolution = 500
-y_resolution = 500
+x_resolution = 300
+y_resolution = 300
 
-x_res_current = 300
-y_res_current = 300
-growth_const = 10
+x_res_current = 10
+y_res_current = 10
+growth_const = 5
 
 if not expansion_optimization:
     points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
@@ -99,7 +101,7 @@ else:
 target_density = 0.15
 points_placed = 1
 density = 1/(x_res_current*y_res_current)
-timestamp = 1
+timestamp = 0
 
 start_time = time.time()
 time_expansion = time.time()
@@ -114,7 +116,7 @@ while True:
         break
 
     if expansion_optimization and density >= target_density:
-        print(f"expanding... {x_res_current}/{x_resolution}, {str(time.time()-time_expansion)[0:4]}s")
+        print(f"expanding... {x_res_current}/{x_resolution}, {str(time.time()-time_expansion)[0:4]}s") # generation updates for if expansion optimization is used
         time_expansion = time.time()
         points = expand_array(points, growth_const)
         x_res_current += 2*growth_const
@@ -154,8 +156,8 @@ while True:
 
     timestamp +=1 
 
-    if ((time.time()-start_time)//1)%10 == 0:
-        print(density/target_density)
+    if ((time.time()-start_time)//1)%10 == 0 and not expansion_optimization: # generation updates for if you're not using expansion optimization algorithm
+        print(f"{density/target_density}, {str(time.time()-start_time)[0:4]}s")
 
 
 
@@ -163,16 +165,23 @@ while True:
 pixels = []
 for line in points:
     for point in line:
-        if point != None:
-            pixels.append((0,0,0))
-        else:
-            pixels.append((255,255,255))
+        if time_shading: # assigning points a grayscale shade based on when they were added
+            if point != None:
+                val = int((point.timestamp / timestamp)*255//1)
+                pixels.append((val,val,val))
+            else:
+                pixels.append((255,255,255))
 
+        else: # assigning points to be black with a white background
+            if point != None:
+                pixels.append((0,0,0))
+            else:
+                pixels.append((255,255,255))
 
 # saving the output image
 print("saving the output image")
 output = Image.new(mode="RGB", size=(len(points[0]),len(points)))
 output.putdata(pixels)
-output.save(f"outputs\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization} -downscaling_expansion={downscaling_expansion} -generated in {str(time.time()-start_time)[0:4]}s.jpg")
+output.save(f"outputs\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization} -downscaling_expansion={downscaling_expansion} -time_shading={time_shading} -generated in {str(time.time()-start_time)[0:4]}s.jpg")
 
 print(f"done in {str(time.time()-start_time)[0:4]}s")
