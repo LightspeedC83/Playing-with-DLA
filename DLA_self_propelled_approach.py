@@ -27,8 +27,8 @@ def crude_print(points):
 
 
 # key controlling variables
-x_res = 50
-y_res = 50
+x_res = 200
+y_res = 200
 target_density = 0.15
 
 # setting the program's initial state
@@ -46,7 +46,7 @@ start_time = time.time()
 timestamp = 1
 
 while density < target_density:
-    crude_print(points)
+
     # choosing a point to add onto
     while True:
         try:
@@ -55,7 +55,7 @@ while density < target_density:
             for possible in [(candidate.x-1,candidate.y), (candidate.x+1, candidate.y), (candidate.x, candidate.y-1), (candidate.x, candidate.y+1)]:
                 if points[possible[1]][possible[0]] == None:
                     candidates.append(possible)
-            # print(candidates)
+            
             if len(candidates) == 0:
                 only_points.remove(candidate)
             else:
@@ -69,8 +69,8 @@ while density < target_density:
             pass
 
     # giving user update every 10 seconds
-    if ((time.time()-start_time)//1)%10 == 0: # generation updates for if you're not using expansion optimization algorithm
-        print(f"{density/target_density}, {str(time.time()-start_time)[0:4]}s")
+    if ((time.time()-start_time)//1)%10 == 0 and (time.time()-start_time)//1 != 0: # generation updates for if you're not using expansion optimization algorithm
+        print(f"{str(density/target_density)[0:4]}, {str(time.time()-start_time)[0:4]}s")
     
     # preparing to restart the loop
     timestamp +=1
