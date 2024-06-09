@@ -28,8 +28,8 @@ def crude_print(points):
 
 
 # key controlling variables
-x_res = 200
-y_res = 200
+x_res = 1000
+y_res = 1000
 target_density = 0.15
 
 # setting the program's initial state
@@ -50,7 +50,7 @@ timestamp = 1
 
 first_digit = ""
 while density < target_density:
-    
+
     # choosing a point to add onto
     while True:
         
