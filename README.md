@@ -23,16 +23,27 @@ It should be noted that this expansion optimization process seems to produce ima
 
 
 ## Bail out optimization
-(I need to pursue this possibility, would be easy to implement)
+The idea behind bail out optimization is that the program gives up on walking a point around, if it has made a number of moves over a threshold. 
 
 
 ## Further Optimization without simulating Brownian motion
 To generate the Brownian Trees produced by DLA faster, we abandon the simulation of Brownian motion in favor of a less random approach. Instead of having a candidate point move randomly until it finds another point, we pick a random point from the existing points already placed and place a new point at a random empty space next to said point. However, this basic implementation does not generate a Brownian tree, it instead creates an expanding blob.
 
-The simplistic approach outlined above generates the following (decidedly not a Brownian Tree):
+The simplistic approach outlined above generates the following: (decidedly not a Brownian Tree)
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/self_propelled_approach_test_1.jpg)
 
 To be fair, it did generate the image *very* quickly...
+
+## decoding the output file names
+- {number}x{number} --> image resolution
+- -d={number} --> point density (ie. points placed / total canvas space)
+- -ld={boolean} --> whether or not a candidate will lock when in diagonal contact with another point
+- -eo={boolean} --> whether or not the output was generated using the expansion optimization algorithm
+- -de={boolean} --> whether or not the expansion optimization algoirithm used downscaling expansion
+- -b={boolean} --> whether or not the output was generated using bail out optimization
+- -bt={number} --> the bailout time (ie. number of moves before a point was bailed out on)
+- -ts={boolean} --> whether or not the image uses time shading (if true, the color of points placed approaches white in the order in which they were placed)
+- -{number}s --> the number of seconds it took to generate the output
 
 
 ## To Do:

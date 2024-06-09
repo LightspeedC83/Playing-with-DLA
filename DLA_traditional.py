@@ -2,14 +2,20 @@ import random
 from PIL import Image
 import time
 
+# controlling variables
+target_density = 0.15
+
 locks_on_diagonal = False
 expansion_optimization = True
+growth_const = 5
 downscaling_expansion = False
 
 if not expansion_optimization:
     downscaling_expansion = False
 
-time_shading = True
+time_shading = False
+bail_out_optimization = True
+bail_out_time = 100
 
 # creating the point class system
 class Point():
@@ -80,7 +86,7 @@ y_resolution = 300
 
 x_res_current = 10
 y_res_current = 10
-growth_const = 5
+
 
 if not expansion_optimization:
     points = [[None for x in range(x_resolution)] for y in range(y_resolution)] #the list to keep track of the points
@@ -98,7 +104,6 @@ else:
 
 
 # starting the main loop
-target_density = 0.15
 points_placed = 1
 density = 1/(x_res_current*y_res_current)
 timestamp = 1
@@ -138,7 +143,12 @@ while True:
             break
     
     # moving the point just created 
+    num_moves = 0
     while not new_point.is_locked(points):
+        if num_moves > bail_out_time and bail_out_optimization: # bailing out if the candidate point has moved too much without settling
+            points[new_point.x][new_point.y] = None
+            points_placed -= 1
+            break
         possible_points  = [] # nb: there's probably a better way to find a random possible point, but idc rn
         for x in range(new_point.x-1, new_point.x+2):
             for y in range(new_point.y-1, new_point.y+2):
@@ -148,6 +158,7 @@ while True:
                 except: 
                     pass
         new_point.move(points, random.choice(possible_points))
+        num_moves += 1
     
     
     # recalculating density and restarting loop
@@ -156,7 +167,7 @@ while True:
 
     timestamp +=1 
 
-    if ((time.time()-start_time)//1)%10 == 0 and not expansion_optimization: # generation updates for if you're not using expansion optimization algorithm
+    if ((time.time()-start_time)//1)%10 == 0 and  (time.time()-start_time)//1 != 0 and not expansion_optimization: # generation updates for if you're not using expansion optimization algorithm
         print(f"{density/target_density}, {str(time.time()-start_time)[0:4]}s")
 
 
@@ -180,8 +191,15 @@ for line in points:
 
 # saving the output image
 print("saving the output image")
+file_name = f"outputs_traditional_DLA\DLA output {x_resolution}x{y_resolution} -d={target_density} -ld={locks_on_diagonal} -eo={expansion_optimization} "
+file_name += f"-de={downscaling_expansion} " if expansion_optimization else " "
+file_name += f"-b={bail_out_optimization} " 
+file_name += f"-bt={bail_out_time} " if bail_out_optimization else " " 
+file_name += f"-ts={time_shading} -{str(time.time()-start_time)[0:4]}s.jpg"
+print(file_name)
+
 output = Image.new(mode="RGB", size=(len(points[0]),len(points)))
 output.putdata(pixels)
-output.save(f"outputs_traditional_DLA\DLA output {x_resolution}x{y_resolution} -density={target_density} -locks_on_diagonal={locks_on_diagonal} -using_expansion_optimization={expansion_optimization} -downscaling_expansion={downscaling_expansion} -time_shading={time_shading} -generated in {str(time.time()-start_time)[0:4]}s.jpg")
+output.save(file_name)
 
 print(f"done in {str(time.time()-start_time)[0:4]}s")
