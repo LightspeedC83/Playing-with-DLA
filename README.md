@@ -40,7 +40,9 @@ The simplistic approach outlined above generates the following: (decidedly not a
 
 To be fair, it did generate the image *very* quickly...
 
-The next thing I tried to make it look more like a brownian tree was to change the choce from being a random one to being weighted towards choosing a point that was farther away from the seed point.
+The next thing I tried to make it look more like a brownian tree was to change the choce from being a random one to choosing a point that was farther away from the seed point.
+This approach generated the following: (also decidely not a Brownian Tree, but maybe closer?)
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s.jpg)
 
 ## decoding the output file names
 - {number}x{number} --> image resolution
