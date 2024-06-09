@@ -24,7 +24,13 @@ It should be noted that this expansion optimization process seems to produce ima
 
 ## Bail out optimization
 The idea behind bail out optimization is that the program gives up on walking a point around, if it has made a number of moves over a threshold. 
-Bail out optimization seems to create a more "blob-y" output, that bears less resemblance to a brownian tree, but it does run much faster:
+Bail out optimization seems to create a more "blob-y" output, that bears less resemblance to a brownian tree, but it does run much faster; in the following test, it ran 4.25x faster
+### 200x200 output without bailout optimizaiton, generated in 114s
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_traditional_DLA/DLA%20output%20200x200%20-d%3D0.15%20-ld%3DFalse%20-eo%3DFalse%20%20-b%3DFalse%20%20-ts%3DFalse%20-114.s.jpg)
+
+### 200x200 output with bailout optimization, generated in 26.8 seconds (bailout time 100)
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_traditional_DLA/DLA%20output%20200x200%20-d%3D0.15%20-ld%3DFalse%20-eo%3DFalse%20%20-b%3DTrue%20-bt%3D100%20-ts%3DFalse%20-26.8s.jpg)
+
 
 
 ## Further Optimization without simulating Brownian motion
