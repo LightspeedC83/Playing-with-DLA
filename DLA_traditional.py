@@ -6,7 +6,7 @@ import time
 target_density = 0.15
 
 locks_on_diagonal = False
-expansion_optimization = True
+expansion_optimization = False
 growth_const = 5
 downscaling_expansion = False
 
@@ -81,8 +81,8 @@ def expand_array(points, addition):
 
 
 # setting the initial state
-x_resolution = 300
-y_resolution = 300
+x_resolution = 200
+y_resolution = 200
 
 x_res_current = 10
 y_res_current = 10
