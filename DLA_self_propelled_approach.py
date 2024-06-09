@@ -45,6 +45,7 @@ points_placed = 1
 start_time = time.time()
 timestamp = 1
 
+first_digit = ""
 while density < target_density:
 
     # choosing a point to add onto
@@ -52,11 +53,11 @@ while density < target_density:
         try:
             candidates = []
             candidate = random.choice(only_points)
-            for possible in [(candidate.x-1,candidate.y), (candidate.x+1, candidate.y), (candidate.x, candidate.y-1), (candidate.x, candidate.y+1)]:
+            for possible in [(candidate.x-1,candidate.y), (candidate.x+1, candidate.y), (candidate.x, candidate.y-1), (candidate.x, candidate.y+1)]: # going through the neighbors of the selected candidate
                 if points[possible[1]][possible[0]] == None:
                     candidates.append(possible)
             
-            if len(candidates) == 0:
+            if len(candidates) == 0: # if there are no free neighbors
                 only_points.remove(candidate)
             else:
                 location = random.choice(candidates)
@@ -69,8 +70,11 @@ while density < target_density:
             pass
 
     # giving user update every 10 seconds
-    if ((time.time()-start_time)//1)%10 == 0 and (time.time()-start_time)//1 != 0: # generation updates for if you're not using expansion optimization algorithm
+    
+    if ((time.time()-start_time)//1)%10 == 0 and str(time.time()-start_time)[0:1] != first_digit: # generation updates for if you're not using expansion optimization algorithm
         print(f"{str(density/target_density)[0:4]}, {str(time.time()-start_time)[0:4]}s")
+        first_digit = str(time.time()-start_time)[0:1]
+        
     
     # preparing to restart the loop
     timestamp +=1

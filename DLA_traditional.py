@@ -110,6 +110,7 @@ timestamp = 1
 
 start_time = time.time()
 time_expansion = time.time()
+first_digit = ""
 
 while True:
     
@@ -167,10 +168,9 @@ while True:
 
     timestamp +=1 
 
-    if ((time.time()-start_time)//1)%10 == 0 and  (time.time()-start_time)//1 != 0 and not expansion_optimization: # generation updates for if you're not using expansion optimization algorithm
-        print(f"{density/target_density}, {str(time.time()-start_time)[0:4]}s")
-
-
+    if ((time.time()-start_time)//1)%10 == 0 and str(time.time()-start_time)[0:1] != first_digit and not expansion_optimization: # generation updates for if you're not using expansion optimization algorithm
+        print(f"{str(density/target_density)[0:4]}, {str(time.time()-start_time)[0:4]}s")
+        first_digit = str(time.time()-start_time)[0:1]
 
 # converting the points list to an image
 pixels = []
