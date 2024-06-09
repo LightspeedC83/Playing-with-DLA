@@ -1,6 +1,7 @@
 import random
 from PIL import Image
 import time
+import math
 
 
 
@@ -33,9 +34,11 @@ target_density = 0.15
 
 # setting the program's initial state
 points = [[None for x in range(x_res)] for y in range(y_res)] # the canvas space with point objects for points and None objects for empty spaces
-only_points = [Point(x_res//2, y_res//2)] # a list of all the point objects 
+only_points = [Point(x_res//2, y_res//2)] # a list of all the point objects that have an adjacent free space
 
 points[y_res//2][x_res//2] = only_points[0] # putting the seed point in the points list at the center of the canvas space
+
+seed_point = only_points[0] # keeping track of the seed point
 
 
 # starting the main loop
@@ -47,9 +50,10 @@ timestamp = 1
 
 first_digit = ""
 while density < target_density:
-
+    
     # choosing a point to add onto
     while True:
+        
         try:
             candidates = []
             candidate = random.choice(only_points)
@@ -59,12 +63,41 @@ while density < target_density:
             
             if len(candidates) == 0: # if there are no free neighbors
                 only_points.remove(candidate)
+                
             else:
+                
+                # creating a list of coordinates, sorted by distance from the seed point
+                indexed_candidates = [(candidates[0], math.sqrt((candidates[0][0]-seed_point.x)**2 + (candidates[0][1]-seed_point.y)**2))]
+                for point in candidates[1:]:
+                    
+                    distance = math.sqrt((point[0]-seed_point.x)**2 + (point[1]-seed_point.y)**2)
+                    insertion_index = 0
+                    inserted = False
+                    for i in range(len(indexed_candidates)):
+                        if indexed_candidates[i][1] > distance:
+                            candidates.insert(i, (point, distance))
+                            inserted = True
+                            break
+
+                    if not inserted:
+                        indexed_candidates.append((point, distance))
+   
+                # picking a point farthest from the center
+                location = indexed_candidates[-1][0]
+                new_point = Point(location[0], location[1], timestamp)
+                only_points.append(new_point)
+                points[location[1]][location[0]] = new_point
+                break
+                
+
+                """
+                # the following code chooses a random candidate space to place a point
                 location = random.choice(candidates)
                 new_point = Point(location[0], location[1], timestamp)
                 only_points.append(new_point)
                 points[location[1]][location[0]] = new_point
                 break
+                """
 
         except:
             pass

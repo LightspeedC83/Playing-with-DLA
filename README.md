@@ -40,6 +40,7 @@ The simplistic approach outlined above generates the following: (decidedly not a
 
 To be fair, it did generate the image *very* quickly...
 
+The next thing I tried to make it look more like a brownian tree was to change the choce from being a random one to being weighted towards choosing a point that was farther away from the seed point.
 
 ## decoding the output file names
 - {number}x{number} --> image resolution
