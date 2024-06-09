@@ -21,6 +21,11 @@ To further improve the optimization of this approach, I made it such that the gr
 
 It should be noted that this expansion optimization process seems to produce images with higher densities at the center if the candidate point locks on the diagonal, than if it doesn't. (after a cursory glance, it doesn't seem to affect density in the images where the candidate point doesn't lock on the diagonal). 
 
+## Bail out optimization
+(I need to pursue this possibility, would be easy to implement)
+
+## Further Optimization without simulating Brownian motion
+To generate the Brownian Trees produced by DLA faster, we abandon the simulation of Brownian motion in favor of a less random approach. Instead of having a candidate point move randomly until it finds another point, we pick a random point from the existing points already placed and place a new point at a random empty space next to said point. However, this basic implementation does not generate a Brownian tree, it instead creates an expanding blob.
 
 ## To Do:
 - fix wraparound issue (i think it happens with image conversion)
