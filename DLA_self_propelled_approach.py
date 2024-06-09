@@ -53,9 +53,9 @@ while density < target_density:
             candidates = []
             candidate = random.choice(only_points)
             for possible in [(candidate.x-1,candidate.y), (candidate.x+1, candidate.y), (candidate.x, candidate.y-1), (candidate.x, candidate.y+1)]:
-                if points[possible[1]][possible[0]] != None:
+                if points[possible[1]][possible[0]] == None:
                     candidates.append(possible)
-            
+            # print(candidates)
             if len(candidates) == 0:
                 only_points.remove(candidate)
             else:
