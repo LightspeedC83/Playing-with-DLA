@@ -44,7 +44,11 @@ The next thing I tried to make it look more like a brownian tree was to change t
 This approach generated the following: (also decidely not a Brownian Tree, but maybe closer?)
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s.jpg)
 
-!!! actually I think I'm finding the farthest adjacent point incorrectly (will test later)
+Okay, we made it more blob-y. What if we choose a point with a probability weighted towards those farthest away from the seed point?
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.31s%20low%20weights.jpg)
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.32s%20high%20weights.jpg)
+
+This produces (depending on the weights) a shape somewhere between the "o" created by having a completely random choice and the "+" created by always choosing the farthest point.
 
 ## Decoding the Output File Names
 - {number}x{number} --> image resolution
