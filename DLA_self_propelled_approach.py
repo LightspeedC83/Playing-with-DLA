@@ -28,9 +28,9 @@ def crude_print(points):
 
 
 # key controlling variables
-x_res = 1000
-y_res = 1000
-target_density = 0.15
+x_res = 500
+y_res = 500
+target_density = 0.35
 
 # setting the program's initial state
 points = [[None for x in range(x_res)] for y in range(y_res)] # the canvas space with point objects for points and None objects for empty spaces
@@ -81,9 +81,12 @@ while density < target_density:
 
                     if not inserted:
                         indexed_candidates.append((point, distance))
-   
-                # picking a point farthest from the center
-                location = indexed_candidates[-1][0]
+
+                
+                # picking a point with a weight to prefer those farthest from the center
+                weights = [int(x*(100/len(indexed_candidates))) for x in range(1,len(indexed_candidates)+1)] # making a list of weights that get heavier as the index is higher
+                chosen_index = random.choices([x for x in range(len(indexed_candidates))], weights)[0]
+                location = indexed_candidates[chosen_index][0]
                 new_point = Point(location[0], location[1], timestamp)
                 only_points.append(new_point)
                 points[location[1]][location[0]] = new_point

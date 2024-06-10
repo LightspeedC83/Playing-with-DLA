@@ -1,9 +1,9 @@
 # Playing with DLA
 This is a program that uses diffusion limited aggregation to create images.
-The premise is that you start with a point on a plane and a candidate point is moved randomly until it meets another point, then the candidate point is frozen in place and a new candidate point is created. Candidate points are initialized to a random empty location. For more information on DLA, [refer to the wikipedia](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation).
+The premise is that you start with a point on a plane and a candidate point is moved randomly until it meets another point, then the candidate point is frozen in place and a new candidate point is created. Candidate points are initialized to a random empty location. The structures that are generated from this process are called "Brownian Trees", named for the Browinian motion that the candidate point simulates. For more information on DLA, [refer to the wikipedia](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation).
 
 
-## Output examples
+## Output Examples
 
 ### Candidate point freezes only if one of the top, bottom, left, right spaces (ie. the adjacent spaces) is occupied
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/output%20-diagonals%3Dfalse.jpg)
@@ -12,7 +12,7 @@ The premise is that you start with a point on a plane and a candidate point is m
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/output%20-diagonals%3Dtrue.jpg)
 
 
-## Optimizing the process with expansion
+## Optimizing the Process with Expansion
 If you want to generate a large image using DLA, it is very inefficient to start with one point on that large space and randomly move the candidate point around. As the canvas size gets bigger, the less likely it is that the candidate point finds its way to the other points in a timely manner. The solution that I implemented (in the code, called "expansion_optimization") starts the DLA process with a small image and grows the points in it according to the rules of DLA until it reaches the desired density, then the borders of the space are increased by a fixed amount and the DLA process continues until the desired density is again reached. This process is repeated until the canvas space reaches the size of the desired resolution. Expanding only when the desired density is reached, ensures that said density is uniform throughout. 
 
 I tested the efficiency of this method compared to the alternative of a fixed canvas size throughout the DLA process at a resolution of 300x300 pixels and using the expansion optimization algorithm above, it took 49 seconds. Without the optimization, it took 8 minutes and 24 seconds. This marks a 928.6% increase in efficiency. Note that in the aforementioned test, the desired density for both generations was 0.15 and the candidate point did not lock on the diagonal. This test shows that the expansion optimization algorithm is vastly more efficient than the base DLA method, the difference would be even greater at larger resolutions.
@@ -22,7 +22,7 @@ To further improve the optimization of this approach, I made it such that the gr
 It should be noted that this expansion optimization process seems to produce images with higher densities at the center if the candidate point locks on the diagonal, than if it doesn't. (after a cursory glance, it doesn't seem to affect density in the images where the candidate point doesn't lock on the diagonal). 
 
 
-## Bail out optimization
+## Bail out Optimization
 The idea behind bail out optimization is that the program gives up on walking a point around, if it has made a number of moves over a threshold. 
 Bail out optimization seems to create a more "blob-y" output, that bears less resemblance to a brownian tree, but it does run much faster; in the following test, it ran 4.25x faster.
 ### 200x200 output without bailout optimizaiton, generated in 114s
@@ -32,7 +32,7 @@ Bail out optimization seems to create a more "blob-y" output, that bears less re
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_traditional_DLA/DLA%20output%20200x200%20-d%3D0.15%20-ld%3DFalse%20-eo%3DFalse%20%20-b%3DTrue%20-bt%3D100%20-ts%3DFalse%20-26.8s.jpg)
 
 
-## Further Optimization without simulating Brownian motion
+## Attempts at Further Optimization Without Simulating Brownian Motion
 To generate the Brownian Trees produced by DLA faster, we abandon the simulation of Brownian motion in favor of a less random approach. Instead of having a candidate point move randomly until it finds another point, we pick a random point from the existing points already placed and place a new point at a random empty space next to said point. However, this basic implementation does not generate a Brownian tree, it instead creates an expanding blob.
 
 The simplistic approach outlined above generates the following: (decidedly not a Brownian Tree)
@@ -44,7 +44,9 @@ The next thing I tried to make it look more like a brownian tree was to change t
 This approach generated the following: (also decidely not a Brownian Tree, but maybe closer?)
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s.jpg)
 
-## decoding the output file names
+!!! actually I think I'm finding the farthest adjacent point incorrectly (will test later)
+
+## Decoding the Output File Names
 - {number}x{number} --> image resolution
 - -d={number} --> point density (ie. points placed / total canvas space)
 - -ld={boolean} --> whether or not a candidate will lock when in diagonal contact with another point
@@ -64,6 +66,8 @@ This approach generated the following: (also decidely not a Brownian Tree, but m
     - ~~fix putdata issue from result (is there even an issue?)~~
 - implement mp4 creation of building structure
 - devise an alternate optimization solution where the program keeps track of the edge points and then picks a random edge point, next to which to add a new point
+    - weight the probability of the new adjacent point to be farther from the seed point
+    - weight the probability of choosing a point based on points, that haven't or have been added on to before (or only have 2 or something idk this probably wont work)
 
 To Do (Later):
 - mulitple candidate points at once
