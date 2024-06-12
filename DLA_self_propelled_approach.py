@@ -11,11 +11,23 @@ class Point():
         self.x = x_pos
         self.y = y_pos
         self.timestamp = timestamp
+        self.immediate_neighbors = 0
 
+    def update_adjacents(self):
+        self.immediate_neighbors = 0
+        for y in range(self.y-1, self.y+2):
+            for x in range(self.x-1, self.x+2):
+                try:
+                    if points[y][x] != None and self.y != y and self.x != x:
+                        self.immediate_neighbors +=1
+                        points[y][x].immediate_neighbors += 1
+                except IndexError:
+                    pass # consider (in the future) considering a edge point to have occupied neighbors off the canvas instead of free ones (in that case, you'd incriment immediate neighbors in the case of an index error)
 
+            
 # function declarations
 def crude_print(points):
-    """prints the output list in the terminal with a 0 for an empty space and a 1 for a filled space"""
+    """prints the output list in the terminal with a . for an empty space and a # for a filled space"""
     output = ""
     for line in points:
         for point in line:
@@ -28,8 +40,8 @@ def crude_print(points):
 
 
 # key controlling variables
-x_res = 500
-y_res = 500
+x_res = 200
+y_res = 200
 target_density = 0.35
 
 # setting the program's initial state
@@ -55,8 +67,15 @@ while density < target_density:
     while True:
         
         try:
-            candidates = []
+            # Selecting a point in the structure onto which to add a new adjacent point
+            #here we are going to try only selecting points with less than or equal to 4 occupied neighbors 
             candidate = random.choice(only_points)
+            if candidate.immediate_neighbors >= 3: # not considering a point if it has more than 3 immediate neighbors
+                only_points.remove(candidate)
+                continue
+
+            # choosing what adjacent square will be populated with a new point
+            candidates = []
             for possible in [(candidate.x-1,candidate.y), (candidate.x+1, candidate.y), (candidate.x, candidate.y-1), (candidate.x, candidate.y+1)]: # going through the neighbors of the selected candidate
                 if points[possible[1]][possible[0]] == None:
                     candidates.append(possible)
@@ -88,19 +107,13 @@ while density < target_density:
                 chosen_index = random.choices([x for x in range(len(indexed_candidates))], weights)[0]
                 location = indexed_candidates[chosen_index][0]
                 new_point = Point(location[0], location[1], timestamp)
+
+                # updating the state variables and restarting the loop
                 only_points.append(new_point)
                 points[location[1]][location[0]] = new_point
+                new_point.update_adjacents()
                 break
                 
-
-                """
-                # the following code chooses a random candidate space to place a point
-                location = random.choice(candidates)
-                new_point = Point(location[0], location[1], timestamp)
-                only_points.append(new_point)
-                points[location[1]][location[0]] = new_point
-                break
-                """
 
         except:
             pass

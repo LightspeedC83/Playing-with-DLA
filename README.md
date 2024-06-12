@@ -31,6 +31,16 @@ Bail out optimization seems to create a more "blob-y" output, that bears less re
 ### 200x200 output with bailout optimization, generated in 26.8 seconds (bailout time 100)
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_traditional_DLA/DLA%20output%20200x200%20-d%3D0.15%20-ld%3DFalse%20-eo%3DFalse%20%20-b%3DTrue%20-bt%3D100%20-ts%3DFalse%20-26.8s.jpg)
 
+## Decoding the Output File Names
+- {number}x{number} --> image resolution
+- -d={number} --> point density (ie. points placed / total canvas space)
+- -ld={boolean} --> whether or not a candidate will lock when in diagonal contact with another point
+- -eo={boolean} --> whether or not the output was generated using the expansion optimization algorithm
+- -de={boolean} --> whether or not the expansion optimization algoirithm used downscaling expansion
+- -b={boolean} --> whether or not the output was generated using bail out optimization
+- -bt={number} --> the bailout time (ie. number of moves before a point was bailed out on)
+- -ts={boolean} --> whether or not the image uses time shading (if true, the color of points placed approaches white in the order in which they were placed)
+- -{number}s --> the number of seconds it took to generate the output
 
 ## Attempts at Further Optimization Without Simulating Brownian Motion
 To generate the Brownian Trees produced by DLA faster, we abandon the simulation of Brownian motion in favor of a less random approach. Instead of having a candidate point move randomly until it finds another point, we pick a random point from the existing points already placed and place a new point at a random empty space next to said point. However, this basic implementation does not generate a Brownian tree, it instead creates an expanding blob.
@@ -44,23 +54,13 @@ The next thing I tried to make it look more like a brownian tree was to change t
 This approach generated the following: (also decidely not a Brownian Tree, but maybe closer?)
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s.jpg)
 
-Okay, we made it more blob-y. What if we choose a point with a probability weighted towards those farthest away from the seed point?
-![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.31s%20low%20weights.jpg)
+Okay, What if we choose a point with a probability weighted towards those farthest away from the seed point?
+
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.32s%20high%20weights.jpg)
 
 This produces (depending on the weights) a shape somewhere between the "o" created by having a completely random choice and the "+" created by always choosing the farthest point.
 
-## Decoding the Output File Names
-- {number}x{number} --> image resolution
-- -d={number} --> point density (ie. points placed / total canvas space)
-- -ld={boolean} --> whether or not a candidate will lock when in diagonal contact with another point
-- -eo={boolean} --> whether or not the output was generated using the expansion optimization algorithm
-- -de={boolean} --> whether or not the expansion optimization algoirithm used downscaling expansion
-- -b={boolean} --> whether or not the output was generated using bail out optimization
-- -bt={number} --> the bailout time (ie. number of moves before a point was bailed out on)
-- -ts={boolean} --> whether or not the image uses time shading (if true, the color of points placed approaches white in the order in which they were placed)
-- -{number}s --> the number of seconds it took to generate the output
-
+The next thing I tried was to keep track of the number of points in the square around every point, in the code, I call points in this square the "immdiate neighbors". Instead of selecting a random point that has free square adjacent, it selects a random point that has less than 4 immediate neighbors.
 
 ## To Do:
 - fix wraparound issue (i think it happens with image conversion)
@@ -71,7 +71,8 @@ This produces (depending on the weights) a shape somewhere between the "o" creat
 - implement mp4 creation of building structure
 - devise an alternate optimization solution where the program keeps track of the edge points and then picks a random edge point, next to which to add a new point
     - weight the probability of the new adjacent point to be farther from the seed point
-    - weight the probability of choosing a point based on points, that haven't or have been added on to before (or only have 2 or something idk this probably wont work)
+    - weight the probability of choosing a point based on points, that haven't or have been added on to before (or only have 2 or something)
+    - what if I start at the end and work in???
 
 To Do (Later):
 - mulitple candidate points at once
@@ -83,4 +84,6 @@ To Do (Later):
 - addition of new nucleation points in the middle of building the crystal such that multiple, crystals of different sizes are created 
 - some sort of user interface to make it easy to set starting conditions and rules for generation
 - implement non-random movement and/or generation of candidate points (for example, have them start on one side of the canvas and move in a certain direction with random variation whose weight can be changed)
+- investigate mathematical generation by simulation of energy for each point in connection with dielectric breakdown: https://web.archive.org/web/20030806022533/http://classes.yale.edu/fractals/Panorama/Physics/DLA/DBM/DBM2.html
+
 
