@@ -56,11 +56,18 @@ This approach generated the following: (also decidely not a Brownian Tree, but m
 
 Okay, What if we choose a point with a probability weighted towards those farthest away from the seed point?
 
-![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.32s%20high%20weights.jpg)
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s%20equal%20probability.jpg)
 
 This produces (depending on the weights) a shape somewhere between the "o" created by having a completely random choice and the "+" created by always choosing the farthest point.
 
-The next thing I tried was to keep track of the number of points in the square around every point, in the code, I call points in this square the "immdiate neighbors". Instead of selecting a random point that has free square adjacent, it selects a random point that has less than 4 immediate neighbors.
+The next thing I tried was to keep track of the number of points in the square around every point, in the code, I call points in this square the "immdiate neighbors". Instead of selecting a random point that has free square adjacent, it selects a random point that has less than 4 immediate neighbors (this is 1/2 the availiable neighbor space). This approach produces something with some internal variation, but still the same overall silhouette.
+
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.53s%20test%20selecting%20point%20with%20less%20than%204%20immediate%20neighbors.jpg)
+
+If we instead have it select a random point with less than 3 immediate neighbors, there is more internal variation with a similar silhouette (1 or 2 would not be possible)
+
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.51s%20test%20selecting%20point%20with%20less%20than%203%20immediate%20neighbors.jpg)
+
 
 ## To Do:
 - fix wraparound issue (i think it happens with image conversion)

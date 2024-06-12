@@ -40,9 +40,9 @@ def crude_print(points):
 
 
 # key controlling variables
-x_res = 200
-y_res = 200
-target_density = 0.35
+x_res = 500
+y_res = 500
+target_density = 0.65
 
 # setting the program's initial state
 points = [[None for x in range(x_res)] for y in range(y_res)] # the canvas space with point objects for points and None objects for empty spaces
