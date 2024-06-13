@@ -114,6 +114,9 @@ To Do (Later):
 - some sort of user interface to make it easy to set starting conditions and rules for generation
 - implement non-random movement and/or generation of candidate points (for example, have them start on one side of the canvas and move in a certain direction with random variation whose weight can be changed)
 - investigate mathematical generation by simulation of energy for each point in connection with dielectric breakdown: https://web.archive.org/web/20030806022533/http://classes.yale.edu/fractals/Panorama/Physics/DLA/DBM/DBM2.html
-- branching vectors with random variation approach
+- branching vectors with random variation approach, okay how would we do that?
+    - have a bunch of vector objects, every iteration increase the magnitude of each vector by 1 pixel (if it is going to run into another vector object, terminate that vector object's growth)
+    - the longer a vector object survives without being terminated, the more likely it is to have a child branch come from it at a random angle intersecting it but <90 degrees
+    - repeat this process until the desired density is reached
 
 
