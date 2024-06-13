@@ -52,6 +52,7 @@ To be fair, it did generate the image *very* quickly...
 
 The next thing I tried to make it look more like a brownian tree was to change the choce from being a random one to choosing a point that was farther away from the seed point.
 This approach generated the following: (also decidely not a Brownian Tree, but maybe closer?)
+
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s%20equal%20probability.jpg)
 
 Okay, What if we choose a point with a probability weighted towards those farthest away from the seed point?
@@ -82,6 +83,13 @@ Nobody would expect it to work when it will only place a point where it will hav
 
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.05%20-generated%20in%204.84s%20limiting%20potenital%20neighbors%20greater%20than%201.jpg)
 
+What if instead of checking the immediate neighbors (ie. those points the surrounding square), we checked only the adjacent neighbors? Doing this where the program abandons a possible point if it has more than 2 adjacent neighbors produces the following result:
+
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.25%20-generated%20in%204.10s%20limiting%20potential%20adjacent%20neighbors%20greater%20than%202.jpg)
+
+It is also interesting to note that using 1 instead of 2 produces another quirky result:
+
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.25%20-generated%20in%2023.5s%20limiting%20potential%20adjacent%20neighbors%20greater%20than%201.jpg)
 
 ## To Do:
 - fix wraparound issue (i think it happens with image conversion)
