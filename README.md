@@ -68,6 +68,17 @@ If we instead have it select a random point with less than 3 immediate neighbors
 
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.51s%20test%20selecting%20point%20with%20less%20than%203%20immediate%20neighbors.jpg)
 
+The next step was to predict how the canvas space would be altered with the potential new point (once it had selected a new point in the process outlined above). It counts how many neighbors the point would have (ie. points in the square around the new point) and if that number is too big, it does not put a point there, restarting the process and looking for a new candidate next to which to expand. 
+
+This is what results when the program limits the potential neighbors to 3 or less:
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.25%20-generated%20in%204.05s%20limiting%20potenital%20neighbors%20greater%20than%203.jpg)
+
+This is for 2 or less:
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.25%20-generated%20in%2014.9s%20limiting%20potenital%20neighbors%20greater%20than%202.jpg)
+
+Nobody would expect it to work when it will only place a point where it will have 1 neighbor, but this is what it generated for that:
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.05%20-generated%20in%204.84s%20limiting%20potenital%20neighbors%20greater%20than%201.jpg)
+
 
 ## To Do:
 - fix wraparound issue (i think it happens with image conversion)
