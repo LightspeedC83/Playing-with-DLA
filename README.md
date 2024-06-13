@@ -52,11 +52,11 @@ To be fair, it did generate the image *very* quickly...
 
 The next thing I tried to make it look more like a brownian tree was to change the choce from being a random one to choosing a point that was farther away from the seed point.
 This approach generated the following: (also decidely not a Brownian Tree, but maybe closer?)
-![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s.jpg)
+[alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s%20equal%20probability.jpg)
 
 Okay, What if we choose a point with a probability weighted towards those farthest away from the seed point?
 
-![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s%20equal%20probability.jpg)
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.35%20-generated%20in%201.32s%20high%20weights.jpg)
 
 This produces (depending on the weights) a shape somewhere between the "o" created by having a completely random choice and the "+" created by always choosing the farthest point.
 
@@ -92,5 +92,6 @@ To Do (Later):
 - some sort of user interface to make it easy to set starting conditions and rules for generation
 - implement non-random movement and/or generation of candidate points (for example, have them start on one side of the canvas and move in a certain direction with random variation whose weight can be changed)
 - investigate mathematical generation by simulation of energy for each point in connection with dielectric breakdown: https://web.archive.org/web/20030806022533/http://classes.yale.edu/fractals/Panorama/Physics/DLA/DBM/DBM2.html
+- branching vectors with random variation approach
 
 

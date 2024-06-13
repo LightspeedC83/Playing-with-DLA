@@ -42,7 +42,7 @@ def crude_print(points):
 # key controlling variables
 x_res = 500
 y_res = 500
-target_density = 0.65
+target_density = 0.25
 
 # setting the program's initial state
 points = [[None for x in range(x_res)] for y in range(y_res)] # the canvas space with point objects for points and None objects for empty spaces
@@ -68,7 +68,7 @@ while density < target_density:
         
         try:
             # Selecting a point in the structure onto which to add a new adjacent point
-            #here we are going to try only selecting points with less than or equal to 4 occupied neighbors 
+            # here we are going to try only selecting points with less than or equal to 4 occupied neighbors 
             candidate = random.choice(only_points)
             if candidate.immediate_neighbors >= 3: # not considering a point if it has more than 3 immediate neighbors
                 only_points.remove(candidate)
@@ -106,6 +106,19 @@ while density < target_density:
                 weights = [int(x*(100/len(indexed_candidates))) for x in range(1,len(indexed_candidates)+1)] # making a list of weights that get heavier as the index is higher
                 chosen_index = random.choices([x for x in range(len(indexed_candidates))], weights)[0]
                 location = indexed_candidates[chosen_index][0]
+
+                # checking the immediate neighbors of where this new point would be
+                potential_neighbors = 0
+                for y in range(location[1]-1, location[1]+2):
+                    for x in range(location[0]-1, location[0]+2):
+                        try:
+                            if points[y][x] != None and location[1] != y and location[0] != x:
+                                potential_neighbors +=1
+                        except IndexError:
+                            pass
+                if potential_neighbors > 2:
+                    continue
+
                 new_point = Point(location[0], location[1], timestamp)
 
                 # updating the state variables and restarting the loop
