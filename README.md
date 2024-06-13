@@ -52,7 +52,7 @@ To be fair, it did generate the image *very* quickly...
 
 The next thing I tried to make it look more like a brownian tree was to change the choce from being a random one to choosing a point that was farther away from the seed point.
 This approach generated the following: (also decidely not a Brownian Tree, but maybe closer?)
-[alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s%20equal%20probability.jpg)
+![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%201000x1000%20-density%3D0.15%20-generated%20in%202.25s%20equal%20probability.jpg)
 
 Okay, What if we choose a point with a probability weighted towards those farthest away from the seed point?
 
@@ -71,12 +71,15 @@ If we instead have it select a random point with less than 3 immediate neighbors
 The next step was to predict how the canvas space would be altered with the potential new point (once it had selected a new point in the process outlined above). It counts how many neighbors the point would have (ie. points in the square around the new point) and if that number is too big, it does not put a point there, restarting the process and looking for a new candidate next to which to expand. 
 
 This is what results when the program limits the potential neighbors to 3 or less:
+
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.25%20-generated%20in%204.05s%20limiting%20potenital%20neighbors%20greater%20than%203.jpg)
 
 This is for 2 or less:
+
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.25%20-generated%20in%2014.9s%20limiting%20potenital%20neighbors%20greater%20than%202.jpg)
 
-Nobody would expect it to work when it will only place a point where it will have 1 neighbor, but this is what it generated for that:
+Nobody would expect it to work when it will only place a point where it will have 1 neighbor, but this is what it generated for that: (seems oddly similar to some of Stephen Wolfram's 2D cellular automota from his book "A New Kind of Science")
+
 ![alt text](https://github.com/LightspeedC83/Playing-with-DLA/blob/main/outputs_self_propelled_approach/DLA%20output%20500x500%20-density%3D0.05%20-generated%20in%204.84s%20limiting%20potenital%20neighbors%20greater%20than%201.jpg)
 
 

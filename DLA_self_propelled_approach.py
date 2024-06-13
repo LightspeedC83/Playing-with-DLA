@@ -107,7 +107,16 @@ while density < target_density:
                 chosen_index = random.choices([x for x in range(len(indexed_candidates))], weights)[0]
                 location = indexed_candidates[chosen_index][0]
 
-                # checking the immediate neighbors of where this new point would be
+                # checking the adjacent neighbors of where this new point would be
+                adjacent_neighbors = 0
+                for adjacent in [(location[0]-1,location[1]), (location[0]+1, location[1]), (location[0], location[1]-1), (location[0], location[1]+1)]:
+                    if points[adjacent[1]][adjacent[0]] != None:
+                        adjacent_neighbors +=1
+                if adjacent_neighbors > 1:
+                    continue
+
+                """
+                # this checks immediate neighbors (ie. in the surrounding square)
                 potential_neighbors = 0
                 for y in range(location[1]-1, location[1]+2):
                     for x in range(location[0]-1, location[0]+2):
@@ -118,7 +127,7 @@ while density < target_density:
                             pass
                 if potential_neighbors > 2:
                     continue
-
+                """
                 new_point = Point(location[0], location[1], timestamp)
 
                 # updating the state variables and restarting the loop
